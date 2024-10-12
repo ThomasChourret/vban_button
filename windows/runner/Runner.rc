@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
+            VALUE "CompanyName", "fr.thomaschourret" "\0"
             VALUE "FileDescription", "vban_button" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "vban_button" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 fr.thomaschourret. All rights reserved." "\0"
             VALUE "OriginalFilename", "vban_button.exe" "\0"
             VALUE "ProductName", "vban_button" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
