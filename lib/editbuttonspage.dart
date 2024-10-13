@@ -50,6 +50,21 @@ class _EditButtonsPageState extends State<EditButtonsPage> {
     });
   }
 
+  // Méthode pour réorganiser les boutons
+  void _reorderButtons(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final String movedName = nameControllers[oldIndex].text;
+      final String movedCmd = cmdControllers[oldIndex].text;
+      nameControllers.removeAt(oldIndex);
+      cmdControllers.removeAt(oldIndex);
+      nameControllers.insert(newIndex, TextEditingController(text: movedName));
+      cmdControllers.insert(newIndex, TextEditingController(text: movedCmd));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,34 +102,44 @@ class _EditButtonsPageState extends State<EditButtonsPage> {
           IconButton(onPressed: _addButton, icon: const Icon(Icons.add)),
         ],
       ),
-      body: ListView.builder(
-        itemCount: nameControllers.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: nameControllers[index],
-                    decoration: const InputDecoration(labelText: 'Button Name'),
+      body: ReorderableListView(
+        onReorder: _reorderButtons,
+        children: List.generate(nameControllers.length, (index) {
+          return Card(
+            key: ValueKey(index),
+            margin: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  // Icône pour réorganiser
+                  IconButton(
+                    icon: const Icon(Icons.drag_handle),
+                    onPressed: null, // Aucune action ici
                   ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextField(
-                    controller: cmdControllers[index],
-                    decoration: const InputDecoration(labelText: 'Command'),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      controller: nameControllers[index],
+                      decoration: const InputDecoration(labelText: 'Button Name'),
+                    ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () => _removeButton(index),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      controller: cmdControllers[index],
+                      decoration: const InputDecoration(labelText: 'Command'),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => _removeButton(index),
+                  ),
+                ],
+              ),
             ),
           );
-        },
+        }),
       ),
     );
   }
